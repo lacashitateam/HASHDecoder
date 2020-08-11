@@ -58,7 +58,7 @@ if __name__ == "__main__":
         encoding_ = "ALL"  # MAIN ENCODING
 
         if hash_.upper() in ["ENCODINGS", "ENCODES", "E", "ENC"]:  # ENCODING LIST
-            print(profiles(hash_)["ENCODES"][1:])
+            print(profiles(hash_)["*ENCODES"][1:])
             exit()
 
         for opt, arg in getopt(argv[1:], "e:", ["encoding="])[0]:  # OPTIONS
@@ -66,25 +66,17 @@ if __name__ == "__main__":
                 encoding_ = arg
 
         if encoding_ and hash_:  # MAIN FUNCTION
-            DECODERS = {
-                "SHA1": {
-                    "GET": profiles(hash_)["SHA1_GET"],
-                    "POST": profiles(hash_)["SHA1_POST"]
-                },
-                "MD5": {
-                    "GET": profiles(hash_)["MD5_GET"],
-                    "POST": profiles(hash_)["MD5_POST"]
-                }
-            }  # DICTIONARY
-            if not encoding_.upper() in profiles(hash_)["ENCODES"]: raise ValueError("Invalid Encoding")  # RAISE ERROR IF BAD ENCODING
+            if not encoding_.upper() in profiles(hash_)["*ENCODES"]:print('TYPE: decoder.py ["ENCODINGS","ENCODES","E","ENC"]\nfor encoding information!\n'); raise ValueError("Invalid Encoding")  # RAISE ERROR IF BAD ENCODING
+
             print(INFO)
-            for ENCODING, DATA in DECODERS.items():  # PROCESSING DICTIONARIES
-                if encoding_.upper() in [ENCODING, "ALL"]:
-                    print("[?] ", ENCODING, " (ENCODING)")
-                    for decode_method, decode_urls in DATA.items():
-                        for web, result in Decryptor(decode_urls, decode_method):
-                            print("[*] ", web, ": ", result) if result == "ERROR" else print("[-] ", web, ": ", result) if result == "N/A" else print("[+] ", web, ": ", result)
-                print()
+            for ENCODING, METHODS in profiles(hash_).items():
+                if not ENCODING.startswith("*"):
+                    if encoding_.upper() in [ENCODING, "ALL"]:
+                        print("[?] ", ENCODING, " (ENCODING)")
+                        for METHOD, URLS in METHODS.items():
+                            for web, result in Decryptor(URLS, METHOD):
+                                print("[*] ", web, ": ", result) if result == "ERROR" else print("[-] ", web, ": ", result) if result == "N/A" else print("[+] ", web, ": ", result)
+                        print()
 
     except Exception as Error:
         print("ERROR: ", Error)
