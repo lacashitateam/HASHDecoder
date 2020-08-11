@@ -33,12 +33,7 @@ HASHDecoder requires [Python3.x](https://www.python.org/downloads/) to run.
 Install the dependencies and start decoder.py.
 
 ```sh
-LINUX:
-$ cd HASHDecoder
-$ python3 -m pip install -r requirements.txt
-$ python3 decoder.py
-
-WINDOWS:
+LINUX | WINDOWS:
 $ cd HASHDecoder
 $ python3 -m pip install -r requirements.txt
 $ python3 decoder.py
@@ -54,7 +49,7 @@ $ python3 decoder.py <hash>
 For Defined HASH encoding
 ```sh
 $ python3 decoder.py --encoding MD5 <hash>
-# This wil check for all HASH SOLUTIONS
+# This wil check for all MD5 HASH SOLUTIONS
 ```
 
 
